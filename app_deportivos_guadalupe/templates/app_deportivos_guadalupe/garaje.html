@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Deportivos Guadalupe - Garaje Principal</title>
+    <!-- Estilos de Leaflet -->
+    <link rel="stylesheet" href="{% static 'recursos/libs/leaflet/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'recursos/estilos/estilo.css' %}">
+</head>
+<body style="background-color: #121212; color: #fff; font-family: sans-serif; padding: 20px;">
+
+    <h1>🏎️ Showroom Deportivos Guadalupe</h1>
+    <p>¡Bienvenido al panel principal de la vitrina multimedia!</p>
+    <hr style="border-color: #333; margin: 20px 0;">
+
+    <!-- Reproductor de Audio -->
+    <section>
+        <h3>🎧 Sonido de Motor V8</h3>
+        <audio controls>
+            <source src="{% static 'recursos/audios/alertas/motor_v8.mp3' %}" type="audio/mpeg">
+            Tu navegador no soporta el reproductor de audio.
+        </audio>
+    </section>
+
+    <!-- Reproductor de Video con Subtítulos -->
+    <section style="margin-top: 30px;">
+        <h3>🎬 Pruebas de Pista (Test Drive)</h3>
+        <video controls width="500">
+            <source src="{% static 'recursos/videos/clips/test_drive_v8.mp4' %}" type="video/mp4">
+            <track src="{% static 'recursos/videos/subtitulos/subtitulos.vtt' %}" kind="subtitles" srclang="es" label="Español" default>
+        </video>
+    </section>
+
+    <!-- Contenedor del Mapa -->
+    <section style="margin-top: 30px;">
+        <h3>📍 Ubicación Showroom Principal</h3>
+        <div id="mapa" style="height: 300px; width: 100%; max-width: 600px; border-radius: 8px;"></div>
+    </section>
+
+    <!-- Scripts de la librería Leaflet y tu lógica -->
+    <script src="{% static 'recursos/libs/leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'recursos/scripts/mapa.js' %}"></script>
+    <script src="{% static 'recursos/scripts/puntos_encuentro.js' %}"></script>
+    <script src="{% static 'recursos/scripts/autos_api.js' %}"></script>
+    <script src="{% static 'recursos/scripts/tabla_csv.js' %}"></script>
+
+</body>
+</html>

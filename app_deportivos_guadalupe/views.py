@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+def garaje_view(request):
+    """ Vista del Garaje Multimedia """
+    return render(request, 'app_deportivos_guadalupe/garaje.html')
