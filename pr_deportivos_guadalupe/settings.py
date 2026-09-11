@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     # Tu app instalada
     'app_deportivos_guadalupe',
+    'app_transferencia',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,10 @@ ROOT_URLCONF = 'pr_deportivos_guadalupe.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'pr_deportivos_guadalupe' / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'pr_deportivos_guadalupe' / 'templates',
+            BASE_DIR / 'templates',
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,9 +120,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
+#Media Files (Videos, audios, docs)
+MEDIA_URLS = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
