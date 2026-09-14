@@ -8,15 +8,17 @@ def garaje_view(request):
     return render(request, 'app_deportivos_guadalupe/garaje.html')
 
 def evacuacion(request):
+    reportes = Reporte.objects.all()
+
     if request.method == 'POST':
         form = ReporteForm(request.POST, request.FILES) #FILES Subidas
         if form.is_valid():
             form.save()
-            return redirect('evacuacion')
+            return redirect('app_deportivos_guadalupe:features_test')
     else:
         form = ReporteForm()
-        reportes = Reporte.objects.all()
-        return render(request, 'app_deportivos_guadalupe/evacuacion.html', {
-            'form': form,
-            'reportes': reportes,
-        })
+
+    return render(request, 'app_deportivos_guadalupe/features-test-dp.html', {
+        'form': form,
+        'reportes': reportes,
+    })

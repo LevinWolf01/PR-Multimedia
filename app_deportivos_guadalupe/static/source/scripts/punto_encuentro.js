@@ -1,5 +1,3 @@
-// puntos_encuentro.js - Ubicación de sucursales y puntos clave de pruebas
-
 const puntosGuadalupe = [
     {
         nombre: "Punto de Inico: Test Drive V8",
@@ -18,11 +16,4 @@ const puntosGuadalupe = [
     }
 ];
 
-// Dibujar cada marcador en el mapa previamente inicializado
-puntosGuadalupe.forEach(punto => {
-    L.marker(punto.coords).addTo(mapa)
-        .bindPopup(`
-            <b>${punto.nombre}</b><br>
-            <small>${punto.descripcion}</small>
-        `);
-});
+puntosGuadalupe.forEach(punto => window.agregarPuntoEncuentro(punto));

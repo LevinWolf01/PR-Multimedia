@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features Test DP - CodeRider</title>
+
+    <link rel="icon" href="{% static 'source/images/systems/favicon.ico' %}">
+    <link rel="manifest" href="{% static 'source/pwa/manifest.json' %}">
+    <link rel="stylesheet" href="{% static 'source/styles/style.css' %}">
+    <link rel="stylesheet" href="{% static 'source/libs/leaflet/leaflet.css' %}">
+    <style>
+        #mapa {
+            min-height: 480px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CodeRider APP</h1>
+    </header>
+
+    <main>
+        <section class="tarjeta">
+            <h2>Mapa de puntos de encuentro</h2>
+            <p>Selecciona un punto del mapa para añadir un nuevo punto de encuentro.</p>
+            <div class="mapa-formulario">
+                <label for="nombre-punto">Nombre</label>
+                <input id="nombre-punto" type="text" maxlength="100" placeholder="Ej. Punto de evacuación norte">
+                <label for="descripcion-punto">Descripción</label>
+                <input id="descripcion-punto" type="text" maxlength="180" placeholder="Información del punto">
+                <button id="limpiar-puntos" type="button">Limpiar puntos añadidos</button>
+            </div>
+            <p id="estado-mapa" role="status" aria-live="polite"></p>
+            <div id="mapa" class="mapa-interactivo" aria-label="Mapa interactivo de puntos de encuentro"></div>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Subir archivos</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Enviar reporte</button>
+            </form>
+        </section>
+
+        <section class="tarjeta">
+            <h2>Reportes recibidos</h2>
+            {% for r in reportes %}
+            <div class="reporte">
+                <img src="{{ r.foto.url }}" width="150" alt="Foto de {{ r.nombre }}">
+                <p><strong>{{ r.nombre }}</strong>: {{ r.descripcion }}</p>
+                <p>Fecha: {{ r.fecha|date:"d/m/y H:i" }}</p>
+                {% if r.documento %}
+                <a href="{{ r.documento.url }}">Ver documento</a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p>Aún no hay reportes.</p>
+            {% endfor %}
+        </section>
+    </main>
+
+    <script src="{% static 'source/libs/leaflet/leaflet.js' %}"></script>
+    <script src="{% static 'source/scripts/mapa.js' %}"></script>
+    <script src="{% static 'source/scripts/punto_encuentro.js' %}"></script>
+</body>
+</html>

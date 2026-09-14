@@ -122,13 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [BASE_DIR / 'pr_deportivos_guadalupe' / 'static']
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 #Media Files (Videos, audios, docs)
-MEDIA_URLS = '/media/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
