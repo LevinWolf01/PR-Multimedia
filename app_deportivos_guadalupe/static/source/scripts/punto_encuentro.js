@@ -16,4 +16,4 @@ const puntosGuadalupe = [
     }
 ];
 
-puntosGuadalupe.forEach(punto => window.agregarPuntoEncuentro(punto));
+window.puntosGuadalupe = puntosGuadalupe;

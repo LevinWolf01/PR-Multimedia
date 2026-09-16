@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deportivos Guadalupe | Garaje</title>
-    <link rel="stylesheet" href="{% static 'source/styles/style.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'source/styles/style.css' %}?v=3">
     <link rel="stylesheet" href="{% static 'source/libs/leaflet/leaflet.css' %}">
 </head>
 <body class="ag-page">
@@ -18,9 +18,10 @@
             <div class="ag-experimental">
                 <button class="ag-experimental-toggle" type="button" aria-expanded="false" aria-controls="menu-experimental">Funciones Experimentales</button>
                 <div class="ag-experimental-menu" id="menu-experimental">
-                    <button type="button">Mapa Operativo</button>
-                    <button type="button">Transferencia</button>
-                    <button type="button">Vitrina Multimedia</button>
+                    <button class="ag-experimental-option" type="button" data-url="{% url 'app_deportivos_guadalupe:feat_map' %}">Mapa Operativo</button>
+                    <button class="ag-experimental-option" type="button" data-url="{% url 'app_deportivos_guadalupe:feat_soliadds' %}">Solicitudes de Adición</button>
+                    <button class="ag-experimental-option" type="button">Transferencia</button>
+                    <button class="ag-experimental-option" type="button">Vitrina Multimedia</button>
                 </div>
             </div>
             <a href="{% url 'home' %}">Salir</a>
@@ -34,7 +35,7 @@
                 <h1>El garaje<br><span>está abierto.</span></h1>
                 <p>Administra la vitrina multimedia, consulta rutas y accede a las herramientas operativas de Deportivos Guadalupe desde un solo lugar.</p>
                 <div class="ag-actions">
-                    <a class="ag-button" href="{% url 'app_deportivos_guadalupe:features_test' %}">Abrir funciones</a>
+                    <a class="ag-button" href="{% url 'app_deportivos_guadalupe:feat_map' %}">Abrir funciones</a>
                     <a class="ag-text-link" href="#media">Ver medios</a>
                 </div>
             </div>
@@ -103,7 +104,7 @@
                 <span class="ag-eyebrow">Live system</span>
             </div>
             <div class="ag-grid">
-                <a class="ag-card" href="{% url 'app_deportivos_guadalupe:features_test' %}">
+                <a class="ag-card" href="{% url 'app_deportivos_guadalupe:feat_map' %}">
                     <strong>Mapa operativo</strong>
                     <p>Explora sedes y crea puntos de encuentro sobre el mapa interactivo.</p>
                 </a>
@@ -158,6 +159,12 @@
                 experimentalMenu.classList.remove('is-open');
                 experimentalToggle.setAttribute('aria-expanded', 'false');
             }
+        });
+
+        document.querySelectorAll('.ag-experimental-option[data-url]').forEach(option => {
+            option.addEventListener('click', () => {
+                window.location.href = option.dataset.url;
+            });
         });
     </script>
 </body>

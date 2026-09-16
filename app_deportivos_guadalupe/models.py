@@ -13,3 +13,40 @@ class Reporte(models.Model):
     
     def __str__(self):
         return self.nombre
+
+
+class Ubicacion(models.Model):
+    TAMANOS_SEDE = [
+        ('pequena', 'Pequeña'),
+        ('mediana', 'Mediana'),
+        ('grande', 'Grande'),
+    ]
+
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True)
+    tamano_sede = models.CharField(max_length=20, choices=TAMANOS_SEDE)
+    direccion = models.CharField(max_length=255)
+    latitud = models.DecimalField(max_digits=9, decimal_places=6)
+    longitud = models.DecimalField(max_digits=9, decimal_places=6)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-fecha_creacion']
+
+    def __str__(self):
+        return self.nombre
+
+
+class Trayectoria(models.Model):
+    nombre = models.CharField(max_length=120)
+    puntos = models.JSONField(default=list)
+    geometria = models.JSONField(default=list)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-fecha_creacion']
+
+    def __str__(self):
+        return self.nombre
