@@ -69,9 +69,15 @@ function redrawLocations() {
 
 function drawRoute(route, fit = false) {
     if (!route.geometria?.length) return;
+
+    // ===============================================================================================================================================================
+    // LINEA DE LA RUTA YA GENERDADA!
+    // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
     const line = L.polyline(route.geometria.map(point => [point[0], point[1]]), {
-        color: '#ffffff', weight: 5, opacity: .88
+        color: '#00a2ff', weight: 5, opacity: .88
     }).bindPopup(`<strong>${escapeHtml(route.nombre)}</strong>`).addTo(rutasLayer);
+    // ===============================================================================================================================================================
+
     if (fit) mapa.fitBounds(line.getBounds(), { padding: [24, 24] });
 }
 
@@ -218,7 +224,14 @@ async function updateRoutePreview() {
         if (data.code !== 'Ok') throw new Error('No se encontró una ruta para esos puntos.');
         routeGeometry = data.routes[0].geometry.coordinates.map(point => [point[1], point[0]]);
         if (routeLine) mapa.removeLayer(routeLine);
+
+        // ===============================================================================================================================================================
+        // COLOR DE LA LINEA CUANDO ESTÁS GENERANDO LA RUTA:
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
         routeLine = L.polyline(routeGeometry, { color: '#6ee7b7', weight: 5, opacity: .9 }).addTo(mapa);
+        // ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ===============================================================================================================================================================
+
         setStatus(`${routePoints.length} puntos añadidos. Trayectoria ajustada a las calles.`, 'route-status');
     } catch (error) {
         setStatus(error.message, 'route-status');
@@ -356,7 +369,7 @@ document.getElementById('routes-table').addEventListener('click', event => {
     if (view) {
         const route = rutas.find(item => item.id === Number(view.dataset.viewRoute));
         redrawRoutes();
-        const line = L.polyline(route.geometria, { color: '#ffffff', weight: 6, opacity: 1 }).addTo(rutasLayer);
+        const line = L.polyline(route.geometria, { color: '#ffee00', weight: 6, opacity: 1 }).addTo(rutasLayer);
         mapa.fitBounds(line.getBounds(), { padding: [24, 24] });
     }
     if (edit) editRoute(edit.dataset.editRoute).catch(error => setStatus(error.message));
@@ -367,7 +380,7 @@ mapa.on('click', selectMapPoint);
 loadData().catch(error => setStatus(`No se pudieron cargar los datos: ${error.message}`));
 fetch('/static/source/data/geo/sede_guadalupe.geojson')
     .then(response => response.json())
-    .then(data => L.geoJSON(data, { style: { color: '#e07a35', weight: 2, fillOpacity: .12 } }).addTo(mapa));
+    .then(data => L.geoJSON(data, { style: { color: '#35e03e', weight: 2, fillOpacity: .12 } }).addTo(mapa));
 fetch('/static/source/data/json/sucursales.json').then(response => response.json()).then(items => items.forEach(item => {
     L.marker(item.coordenadas).addTo(ubicacionesLayer).bindPopup(`<strong>${escapeHtml(item.nombre)}</strong><br>${escapeHtml(item.ciudad)}`);
 }));

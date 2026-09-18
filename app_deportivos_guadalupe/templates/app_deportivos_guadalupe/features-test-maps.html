@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Mapa Operativo | Deportivos Guadalupe</title>
     <link rel="icon" href="{% static 'source/images/systems/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'source/styles/style.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'source/styles/style.css' %}?v=5">
     <link rel="stylesheet" href="{% static 'source/libs/leaflet/leaflet.css' %}">
 </head>
 <body class="ag-page ft-page map-page">
@@ -24,9 +24,9 @@
 
     <main class="ag-main ft-main">
         <section class="ft-heading map-heading">
-            <p class="ag-eyebrow">Funciones experimentales / Mapa 01</p>
+            <p class="ag-eyebrow">Estas funciones experimentales se encuantran en fase de pruebas, y están sujetas a cambios</p>
             <div class="map-title-row">
-                <h1>Funciones Experimentales <span>del Mapa</span></h1>
+                <h4 class="map-page-title">Funciones Experimentales <span>del Mapa</span></h4>
                 <button class="map-functions-toggle" id="map-functions-toggle" type="button" aria-expanded="false" aria-controls="map-functions-menu">Abrir funciones</button>
             </div>
             <div class="map-functions-menu" id="map-functions-menu" hidden>
@@ -73,6 +73,6 @@
 
     <script src="{% static 'source/libs/leaflet/leaflet.js' %}"></script>
     <script src="{% static 'source/scripts/punto_encuentro.js' %}"></script>
-    <script src="{% static 'source/scripts/mapa_operativo.js' %}"></script>
+    <script src="{% static 'source/scripts/mapa_operativo.js' %}?v=5"></script>
 </body>
 </html>
