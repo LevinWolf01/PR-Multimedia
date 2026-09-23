@@ -8,9 +8,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Base de datos SQLite local
-*.sqlite3
+# Archivos temporales de SQLite
 *.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
 
 # Configuración de VS Code / IDEs
 .vscode/

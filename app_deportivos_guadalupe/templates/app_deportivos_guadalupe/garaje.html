@@ -50,7 +50,7 @@
                     <p class="ag-eyebrow">Catálogo / Selección</p>
                     <h2 id="marcas-title">Marcas destacadas</h2>
                 </div>
-                <p>Desplaza lateralmente para explorar el catálogo.</p>
+                <a class="ag-button ag-button-small" href="{% url 'app_deportivos_guadalupe:car_catalog' %}">Ver Todo</a>
             </div>
             <div class="ag-brand-rail">
                 <div class="ag-brand-track" id="marcas-track" aria-label="Marcas de vehículos">
@@ -164,6 +164,17 @@
         document.querySelectorAll('.ag-experimental-option[data-url]').forEach(option => {
             option.addEventListener('click', () => {
                 window.location.href = option.dataset.url;
+            });
+        });
+
+        const brandBranchUrl = "{% url 'app_deportivos_guadalupe:car_branch_list' 'marca-placeholder' %}";
+        document.querySelectorAll('.ag-brand-button').forEach(brandButton => {
+            brandButton.addEventListener('click', () => {
+                const brand = brandButton.querySelector('span').textContent.trim();
+                const brandSlug = brand.toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                window.location.href = brandBranchUrl.replace('marca-placeholder', brandSlug);
             });
         });
     </script>

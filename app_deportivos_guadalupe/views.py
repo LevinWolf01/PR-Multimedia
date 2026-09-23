@@ -2,16 +2,80 @@ import json
 from decimal import Decimal, InvalidOperation
 
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils.text import slugify
 from django.views.decorators.http import require_http_methods
 
-from .models import Reporte, Trayectoria, Ubicacion
-from .forms import ReporteForm
+from .models import Reporte, Trayectoria, Ubicacion, Vehiculo
+from .forms import ReporteForm, VehiculoForm, sanitize_description
+
+
+CATALOG_BRANDS = [
+    'Apollo', 'Aston Martin', 'Audi', 'Bentley', 'BMW', 'Bugatti', 'Chevrolet',
+    'Citroen', 'Corvette', 'Dodge', 'Ferrari', 'Ford', 'Gumpert', 'Honda',
+    'Hyundai', 'Infinity', 'Jaguar', 'Jeep', 'Kia', 'Koenigsegg', 'Lamborghini',
+    'Lexus', 'Maserati', 'Mazda', 'McLaren', 'Mercedes-Benz', 'Mitsubishi',
+    'Nissan', 'Opel', 'Pagani', 'Porsche', 'Renault', 'Rimac', 'Rolls Royce',
+    'SSC Tuatara', 'Subaru', 'Tesla', 'Toyota', 'Volkswagen',
+]
 
 
 def garaje_view(request):
     """ Vista del Garaje Multimedia """
     return render(request, 'app_deportivos_guadalupe/garaje.html')
+
+
+def car_branch_list_view(request, brand_slug=None):
+    available_vehicles = Vehiculo.objects.filter(disponible=True)
+    vehicles = available_vehicles
+    if brand_slug:
+        vehicles = [vehicle for vehicle in available_vehicles if slugify(vehicle.marca) == brand_slug]
+    brand = vehicles[0].marca if brand_slug and vehicles else (
+        brand_slug.replace('-', ' ').title() if brand_slug else 'Todos los vehículos'
+    )
+    return render(request, 'app_deportivos_guadalupe/car-branch-list.html', {
+        'vehicles': vehicles,
+        'brand': brand,
+        'all_vehicles': not brand_slug,
+        'selected_brand': brand_slug,
+        'catalog_brands': [{'name': item, 'slug': slugify(item)} for item in CATALOG_BRANDS],
+    })
+
+
+def car_create_view(request):
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST, request.FILES)
+        if form.is_valid():
+            vehicle = form.save()
+            return redirect('app_deportivos_guadalupe:car_showcase', car_id=vehicle.id)
+    else:
+        form = VehiculoForm()
+    return render(request, 'app_deportivos_guadalupe/car-create.html', {'form': form, 'editing': False})
+
+
+def car_edit_view(request, car_id):
+    vehicle = get_object_or_404(Vehiculo, pk=car_id)
+    if request.method == 'POST':
+        form = VehiculoForm(request.POST, request.FILES, instance=vehicle)
+        if form.is_valid():
+            vehicle = form.save()
+            return redirect('app_deportivos_guadalupe:car_showcase', car_id=vehicle.id)
+    else:
+        form = VehiculoForm(instance=vehicle)
+    return render(request, 'app_deportivos_guadalupe/car-create.html', {
+        'form': form,
+        'editing': True,
+        'vehicle': vehicle,
+        'description_html': sanitize_description(vehicle.descripcion),
+    })
+
+
+def car_showcase_view(request, car_id):
+    vehicle = get_object_or_404(Vehiculo, pk=car_id, disponible=True)
+    return render(request, 'app_deportivos_guadalupe/car-showcase.html', {
+        'vehicle': vehicle,
+        'description_html': sanitize_description(vehicle.descripcion),
+    })
 
 def mapa_view(request):
     return render(request, 'app_deportivos_guadalupe/features-test-maps.html')

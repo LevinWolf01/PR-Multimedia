@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Reporte(models.Model):
@@ -50,3 +51,34 @@ class Trayectoria(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+class Vehiculo(models.Model):
+    marca = models.CharField(max_length=80)
+    modelo = models.CharField(max_length=120)
+    precio = models.DecimalField(max_digits=12, decimal_places=2)
+    anio = models.PositiveSmallIntegerField()
+    fecha_publicacion = models.DateTimeField(default=timezone.now, editable=False)
+    imagen_archivo = models.ImageField(upload_to='vehicles/images/', blank=True)
+    imagen_url = models.URLField(max_length=500, blank=True)
+    modelo_3d_archivo = models.FileField(upload_to='vehicles/models/', blank=True)
+    modelo_3d_url = models.TextField(blank=True)
+    modelo_3d_embed_html = models.TextField(blank=True, editable=False)
+    combustible = models.CharField(max_length=60, blank=True)
+    motor = models.CharField(max_length=100, blank=True)
+    transmision = models.CharField(max_length=80, blank=True)
+    potencia = models.CharField(max_length=80, blank=True)
+    traccion = models.CharField(max_length=60, blank=True)
+    carroceria = models.CharField(max_length=80, blank=True)
+    sillas = models.PositiveSmallIntegerField(default=2)
+    puertas = models.PositiveSmallIntegerField(default=2)
+    stock = models.PositiveIntegerField(default=0)
+    descripcion = models.TextField(blank=True)
+    disponible = models.BooleanField(default=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-fecha_publicacion', '-id']
+
+    def __str__(self):
+        return f'{self.marca} {self.modelo}'
